@@ -1,0 +1,101 @@
+﻿@model IrcWebApplication.Models.LoginModel
+
+@{
+    ViewBag.Title = "IRC";
+}
+
+@section scripts {
+    <script>
+        var loginData = '@Html.Raw(Json.Encode(Model))'
+    </script>
+    <script src="~/Scripts/jquery.signalR-2.0.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/apps/main.js"></script>
+    <script src="~/Scripts/apps/irc.js"></script>
+	<script>	
+	    function validate(evt) {
+	        var theEvent = evt || window.event;
+	        var key = theEvent.keyCode || theEvent.which;
+	        key = String.fromCharCode(key);
+	        var regex = /[^ ,]/;
+	        if (!regex.test(key)) {
+	            theEvent.returnValue = false;
+	            if (theEvent.preventDefault) theEvent.preventDefault();
+	        }
+	    }
+	 </script>
+
+
+}
+
+
+
+<div class="row main menu">
+    @if (Session["loginModel"] != null)
+{
+    <div class="col-xs-1">
+        @using (Html.BeginForm("signout", "account"))
+        {
+            <input class="btn btn-default log-out" type="submit" value="Sign Out" />
+        }
+    </div>
+}
+    <div class="col-xs-1">
+        <button type="button" id="channel-list" class="btn btn-default btn-info">Channels</button>
+    </div>
+    <div data-bind="with: main" class="col-xs-4 topic-wrapper" id="topic-wrapper">
+        <span data-bind="text: topic" class="topic"></span>
+    </div>
+    <div class="col-xs-1"></div>
+    <div class="col-xs-1"></div>
+    
+</div>
+<div class="row main">
+    <div data-bind="with: chanList" class="col-xs-2 col-sm-1 channel-list">
+        <ul data-bind="foreach: sortedChannels">
+            <li>
+                <strong><span data-bind="text: name, click: changeChannel"></span></strong>
+                <div data-bind="click: closeChannel" class="channel-list-close close"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-xs-8 col-sm-9 message-container">
+        <div id="scrollbar">
+            <div class="handle"></div>
+        </div>
+        <div id="frame">
+            <div data-bind="with: main" class="slidee" id="messages">
+                <ul data-bind="foreach: messages">
+                    <li data-bind="attr: { 'class': type }">
+                        <strong data-bind="text: from"></strong>
+                        <span data-bind="text: message"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div data-bind="with: main" class="col-xs-2 user-list">
+        <ul data-bind="foreach: sortedUsers">
+            <li data-bind="attr: { 'class': op ? 'user-op' : voice ? 'user-voice' : '' + ' ' + (away ? 'user-away' : 'user-regular')}">
+                <strong><span data-bind="text: name, click: startPrivate"></span></strong>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="bottom-bar">
+    <input type="text" id="message-text" class="form-control pull-left" />
+    <button type="button" id="message-send" class="btn btn-default btn-info pull-left">Send</button>
+</div>
+<div data-bind="with: allChanList" class="hidden" id="all-channels">
+    <div class="pull-right close"></div>
+    <ul data-bind="foreach: allChannels">
+        <li>
+            <span class="all-channel-name" data-bind="text: $data"></span>
+            <button data-bind="click: $parent.joinChannel" type="button" class="btn btn-default btn-info pull-right">Join</button>
+        </li>
+    </ul>
+    <form data-bind="submit: addChannel" id="new-channel-form">
+        <input onkeypress='validate(event)' maxlength="200"  id="new-channel" class="new-channel" type="text" placeholder="Add new channel" />
+        <input type="submit" class="btn btn-default btn-info pull-right" value="Add" />
+    </form>
+</div>

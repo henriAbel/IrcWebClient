@@ -1,0 +1,264 @@
+﻿@inactive: #aaa;
+
+.border-radius (@radius) {
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+  border-radius: @radius;
+}
+
+body {
+    padding-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 580px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.container {
+    width: 100%;
+}
+
+#frame {
+    height: 400px;
+    overflow: hidden;
+}
+
+#scrollbar {
+    position: absolute;
+    right: 10px;
+    width: 2px;
+    height: 100%;
+    background: #ccc;
+    line-height: 0;
+    top: 0;
+    left: 0;
+
+    .handle {
+        width: 100%;
+        height: 100px;
+        background: #292a33;
+        cursor: pointer;
+
+        .mousearea {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: 22px;
+            height: 100%;
+        }
+    }
+}
+
+
+ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+        padding: 0;
+        list-style-type: none;
+    }
+}
+
+#messages li {
+    background-color: #EEE;
+    .border-radius(3px);
+    min-height: 30px;
+    line-height: 30px;
+    padding: 0 7px 0 7px;
+    margin-bottom: 1px;
+}
+
+.notification {
+    background-color: rgb(160,255,160) !important;
+}
+
+.error {
+    background-color: rgb(255,160,160) !important;
+}
+
+.clear {
+    clear: both;
+}
+
+.show-more {
+    cursor: pointer;
+}
+
+.advanced-hide {
+    max-height: 0px !important;
+}
+
+.advanced {
+    overflow: hidden;
+    max-height: 300px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.message-container {
+    margin-bottom: 15px;
+}
+
+.channel-list {
+    padding: 0;
+    overflow: hidden;
+
+    ul {
+        padding: 0;
+
+        li {
+            color: @inactive;
+
+            span {
+                cursor: pointer;
+            }
+
+            .channel-list-close {
+                background-image: url('/Content/x_alt_12x12.png');
+                width: 12px;
+                height: 20px;
+                display: inline-block;
+                background-position: 50% 50%;
+                background-repeat: no-repeat;
+                margin-right: 4px;
+                position: absolute;
+                right: 0;
+            }
+        }
+
+        .channel-selected {
+            color: black;
+        }
+
+        .new-message {
+            color: #b94a48;
+        }
+    }
+}
+
+
+#message-send {
+    margin-left: 10px;
+}
+
+.main-content {
+    position: static;
+}
+
+.bottom-bar {
+    position: absolute;
+    bottom: 15px;
+    margin: auto;
+    max-width: 669px;
+    left: 0;
+    right: 0;
+    min-width: 420px;
+}
+
+#message-text {
+    width: 80%;
+}
+
+.channel-list-show {
+    position: absolute;
+    width: 35%;
+    height: auto;
+    min-height: 150px;
+    display: block !important;
+    left: 0;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    margin: auto;
+    background-color: #ddd;
+    box-shadow: 0px 0px 6px #888888;
+    border-radius: 3px;
+    padding: 10px;
+    overflow-y: auto;
+
+    button, form {
+        margin-right: 30px;
+    }
+
+    .close {
+        background-image: url('/Content/x_alt_24x24.png');
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        right: 4px;
+    }
+
+    li {
+        height: 55px;
+    }
+}
+
+.menu {
+    & > div {
+        min-width: 110px;
+        padding: 0 5px 0 5px;
+    }
+}
+
+.topic-wrapper {
+    line-height: 35px;
+}
+
+.user-list {
+    li {
+        cursor: pointer;
+
+        &.user-op {
+            color: green;
+        }
+
+        &.user-voice {
+            color: orange;
+        }
+
+        &.user-away {
+            color: @inactive;
+        }
+
+        &.user-regular {
+            color: black;
+        }
+    }
+}
