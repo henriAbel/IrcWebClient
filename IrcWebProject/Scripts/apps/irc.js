@@ -148,9 +148,11 @@ var ircChat = function () {
     var messageBox = $('#message-text');
     var allChanelClose = $('#all-channels .close');
     var onPage = true;
+    var newMessages = false;
     var notificationSound = new Audio('/Content/notify.mp3');
     var lastNotificationTime;
     var soundEnabled = true;
+    var originalTitle = document.title;
     master.chanList(channelModel);
     master.allChanList(channelListViewModel);
     ko.applyBindings(master);
@@ -158,6 +160,9 @@ var ircChat = function () {
     // Bind focus/blur events
     window.onfocus = function () {
         onPage = true;
+        lastNotificationTime = undefined;
+        newMessages = false;
+        onTimer();
     };
 
     window.onblur = function () {
@@ -168,12 +173,18 @@ var ircChat = function () {
 
     // When hub sends new message
     chatHub.client.received = function (message) {
+        // Replace url with <a> tag
+        message.message = Autolinker.link(message.message);
         model = self.checkChannel(message.channel);
         if (message.channel != 'server' && message.type != 'notification') {
             var currentTime = new Date().getTime();
             if (soundEnabled && !onPage && (undefined === lastNotificationTime || currentTime - lastNotificationTime > 20)) {
                 lastNotificationTime = currentTime;
                 notificationSound.play();
+            }
+
+            if (!onPage && !newMessages) {
+                newMessages = true;
             }
         
             if (master.main().channel != message.channel) {
@@ -294,6 +305,17 @@ var ircChat = function () {
     this.findChannelElement = function (channel) {
         return $(".channel-list span:contains('" + channel + "')").parents('li');
     }
+
+    var onTimer = function () {
+        if (newMessages) {
+            if (originalTitle == document.title)
+                document.title = "New messages";
+            else
+                document.title = originalTitle;
+        }
+    }
+
+    var int = setInterval(onTimer, 3000);
 };
 
 

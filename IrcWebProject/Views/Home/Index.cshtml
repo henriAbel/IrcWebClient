@@ -8,6 +8,7 @@
     <script>
         var loginData = '@Html.Raw(Json.Encode(Model))'
     </script>
+    <script src="~/Scripts/autoLinker.js"></script>
     <script src="~/Scripts/jquery.signalR-2.0.0.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/apps/main.js"></script>
@@ -68,7 +69,7 @@
                 <ul data-bind="foreach: messages">
                     <li data-bind="attr: { 'class': type }">
                         <strong data-bind="text: from"></strong>
-                        <span data-bind="text: message"></span>
+                        <span data-bind="html: message"></span>
                     </li>
                 </ul>
             </div>

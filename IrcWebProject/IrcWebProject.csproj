@@ -147,6 +147,7 @@
     <Content Include="packages.config" />
     <Content Include="Content\style.less" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\autoLinker.js" />
     <Content Include="Scripts\inlineEdit.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />

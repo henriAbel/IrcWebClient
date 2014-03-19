@@ -122,7 +122,7 @@ namespace IrcConnector
             _connector.onError += new onError(this.onError);
 
             _timer = new Timer();
-            _timer.Interval = 60000;
+            _timer.Interval = 120000;
             _timer.Elapsed += new ElapsedEventHandler(onWhoTimer);
             _timer.Enabled = true;
         }    
