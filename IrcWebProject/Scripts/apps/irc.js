@@ -157,6 +157,13 @@ var ircChat = function () {
     master.allChanList(channelListViewModel);
     ko.applyBindings(master);
 
+    var onTimer = function () {
+        if (originalTitle == document.title && newMessages)
+            document.title = "New messages";
+        else
+            document.title = originalTitle;
+    }
+
     // Bind focus/blur events
     window.onfocus = function () {
         onPage = true;
@@ -304,15 +311,6 @@ var ircChat = function () {
     // Returns li element thats hold channel name
     this.findChannelElement = function (channel) {
         return $(".channel-list span:contains('" + channel + "')").parents('li');
-    }
-
-    var onTimer = function () {
-        if (newMessages) {
-            if (originalTitle == document.title)
-                document.title = "New messages";
-            else
-                document.title = originalTitle;
-        }
     }
 
     var int = setInterval(onTimer, 3000);
