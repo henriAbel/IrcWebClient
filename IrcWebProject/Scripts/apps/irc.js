@@ -180,9 +180,11 @@ var ircChat = function () {
 
     // When hub sends new message
     chatHub.client.received = function (message) {
+        // Escape message
+        message.message = escape(message.message);
         // Replace url with <a> tag
         message.message = Autolinker.link(message.message);
-        model = self.checkChannel(message.channel);
+        var model = self.checkChannel(message.channel);
         if (message.channel != 'server' && message.type != 'notification') {
             var currentTime = new Date().getTime();
             if (soundEnabled && !onPage && (undefined === lastNotificationTime || currentTime - lastNotificationTime > 20)) {
@@ -198,7 +200,7 @@ var ircChat = function () {
                 self.findChannelElement(message.channel).addClass('new-message')
             }
         }
-        m = new IrcMessage(message.user, message.message, message.type);
+        var m = new IrcMessage(message.user, message.message, message.type);
         model.messages.push(m);
         sly.reload();
         sly.toEnd();
@@ -207,10 +209,10 @@ var ircChat = function () {
     // Updates current userlist
     chatHub.client.userList = function (list) {
         var cleared = [];
-        for (i = 0; i < list.length; i++) {
+        for (var i = 0; i < list.length; i++) {
             // Get channel name from list
-            user = list[i];
-            channel = user.Channel;
+            var user = list[i];
+            var channel = user.Channel;
             if (null != channel) {
                 var channelCWModel = self.checkChannel(channel);
                 // Add user to right channel userlist
@@ -219,14 +221,14 @@ var ircChat = function () {
                     cleared.push(channel);
                 }
 
-                u = new IrcUser(user.Name, user.Op, user.Voice, user.Away);
+                var u = new IrcUser(user.Name, user.Op, user.Voice, user.Away);
                 channelCWModel.addUser(u);
             }
         }
     }
 
     chatHub.client.onTopicChange = function (channelObject) {
-        model = self.checkChannel(channelObject.Name);
+        var model = self.checkChannel(channelObject.Name);
         model.setTopic(channelObject.Topic);
     }
 

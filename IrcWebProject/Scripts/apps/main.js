@@ -39,3 +39,18 @@ $(function () {
 
     $('#message-text').focus();
 });
+
+var chars = {
+    "<": "&lt;",
+    ">": "&gt;",
+    "/": '&#x2F;',
+    '"': '&quot;',
+    "'": '&#39;',
+    "&": "&amp;"
+};
+
+function escape(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return chars[s];
+    });
+}
